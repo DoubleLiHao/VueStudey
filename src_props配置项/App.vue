@@ -1,21 +1,15 @@
 <template>
   <div>
-    <SchoolInfo/>
-    <hr>
-    <StudentInfo/>
+    <StudentInfo name="张三"  :age="99" sex="男"/>
   </div>
   
 </template>
 
 <script>
 import StudentInfo from './components/StudentInfo.vue'
-import SchoolInfo from './components/SchoolInfo.vue'
 export default {
   name: 'App',
-  components: {
-    StudentInfo,
-    SchoolInfo
-  },
+  components: { StudentInfo },
 }
 </script>
 
