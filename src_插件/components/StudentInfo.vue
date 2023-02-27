@@ -4,7 +4,6 @@
     <div>学生姓名：{{ name }}</div>
     <div>学生性别：{{ sex }}</div>
     <div>学生年龄：{{ age }}</div>
-    <div v-fbind="color">测试自定义指令</div>
     <button @click="showName">点我弹出学生名称</button>
     <button @click="hello">你好</button>
   </div>
@@ -19,8 +18,7 @@ export default {
             msg: '这是学生信息',
             name: '张三',
             age: 19,
-            sex: 'male',
-            color: 'red'
+            sex: 'male'
         }
     },
     mixins: [Method],

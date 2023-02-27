@@ -1,6 +1,8 @@
 # vue笔记
 
 ### vue.config.js配置文件
+> 使用vue inspect > output.js 额可以查看到Vue脚手架的默认配置
+> 使用vue.config.js可以对脚手架进行个性化的定制
 
 ### ref属性
     1. 被用来给元素或子组件注册引用信息(id的替代者)
@@ -44,8 +46,21 @@
     注意：如果混入的是data、methods以本身有的属性为主 如果重复不会被混入所替代
           如果混入的是Vue的生命周期则两者同时发生
 
-###
+### 插件
+    功能：增强Vue
+    本质：包含install方法的一个对象，install的第一个参数是Vue的构造函数，第二个以后的参数是使用者传递的参数
+    定义插件：
+        对象.install = function(){
+            // 1、添加全局过滤器
+            Vue.filter(...)
 
-> 使用vue inspect > output.js 额可以查看到Vue脚手架的默认配置
+            // 2、添加全局指令
+            Vue.directive(...)
 
-> 使用vue.config.js可以对脚手架进行个性化的定制
+            // 3、配置全局混入
+            Vue.mixin(....)
+
+            // 4、添加实例方法
+            Vue.prototype.$myMethod = function(){}
+        }
+    使用插件： Vue.use(...)
