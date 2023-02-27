@@ -11,10 +11,10 @@ export default {
         Vue.directive('fbind', {
             // 指令与元素成功绑定时
             bind(element,binding) {
-                element.value = binding.value
+                element.style.color = binding.value
             },
             // 元素插入页面时
-            inserted(element,binding) { 
+            inserted(element, binding) { 
                 element.value = binding.value 
             },
             // 指令所在模板被重新解析时
