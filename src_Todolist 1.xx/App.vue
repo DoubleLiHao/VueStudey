@@ -2,7 +2,7 @@
  * @Author: DoubleLiHao =2998000782@qq.com
  * @Date: 2023-02-22 18:52:20
  * @LastEditors: DoubleLiHao =2998000782@qq.com
- * @LastEditTime: 2023-02-28 21:05:55
+ * @LastEditTime: 2023-03-01 20:53:28
  * @FilePath: \test\src\App.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -36,11 +36,15 @@ export default {
   },
   data() {
     return {
-      Todos: [
-        {id:'001',value:'睡觉',done: true},
-        {id:'002',value:'学习',done: true},
-        {id:'003',value:'打游戏',done: false},
-      ]
+      Todos: JSON.parse(localStorage.getItem("Todos")) || []
+    }
+  },
+  watch: {
+    Todos: {
+      deep: true,
+      handler(){
+        localStorage.setItem('Todos', JSON.stringify(this.Todos))
+      }
     }
   },
   methods: {
