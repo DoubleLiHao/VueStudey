@@ -4,6 +4,8 @@
     <div>学生姓名：{{ name }}</div>
     <div>学生年龄：{{ age }}</div>
     <button @click="sendStudentName">点我给App发送学生姓名</button>
+    <button @click="unbind">点击我解绑自定义事件</button>
+    <button @click="demo">点我触发demo事件</button>
   </div>
 </template>
 
@@ -17,8 +19,19 @@ export default {
       }
   },
   methods: {
+    demo() {
+      this.$emit('demo')
+    },
     sendStudentName() {
       this.$emit('sendStudentName',this.name)
+    },
+    unbind() {
+      // 解绑一个自定义事件
+      // this.$off('sendStudentName')
+      // 解绑多个自定义事件
+      // this.$off(['sendStudentName','demo'])
+      // 解绑所有自定义事件
+      this.$off()
     }
   }
 }

@@ -2,7 +2,7 @@
   <div id="app">
     <TopBanner></TopBanner>
     <!-- 使用自定义事件的方式进行子组件对父组件的数据传输 -->
-    <StudentInfo @sendStudentName="sendStudentName"></StudentInfo>
+    <StudentInfo @sendStudentName="sendStudentName" @demo="m1"></StudentInfo>
     <!-- 用props的方式进行子组件对父组件的数据传输 -->
     <SchoolInfo :sendSchoolName="sendSchoolName"></SchoolInfo>
     <!-- 用ref的方式实现自定义事件 -->
@@ -22,6 +22,9 @@ export default {
     TopBanner
   },
   methods: {
+    m1() { 
+      console.log('demo事件触发了')
+    },
     sendSchoolName(name) {
       console.log('App收到了学校传的名称',name)
     },
