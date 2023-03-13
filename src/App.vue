@@ -34,7 +34,9 @@ export default {
     }
   },
   mounted() {
-    this.$refs.Student.$on('sendStudentName',this.sendStudentName)
+    this.$refs.Student.$on('sendStudentName', function () { 
+      console.log(this.sendStudentNametest)
+    })
   }
 }
 

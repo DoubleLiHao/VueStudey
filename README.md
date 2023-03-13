@@ -1,3 +1,11 @@
+<!--
+ * @Author: DoubleLiHao =2998000782@qq.com
+ * @Date: 2023-02-22 18:52:27
+ * @LastEditors: DoubleLiHao =2998000782@qq.com
+ * @LastEditTime: 2023-03-03 11:22:27
+ * @FilePath: \test\README.md
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 # vue笔记
 
 ### vue.config.js配置文件
@@ -77,3 +85,18 @@
         (2). 子组件 ==> 父组件 通信(要求父组件提前给子组件传一个函数)
     3、使用v-model时要切记：v-model绑定的值不能时props传过来的值，因为props是不可以修改的
     4、props传过来的若是对象类型的值，修改对象中的属性时Vue不会报错，但不推荐这样做
+
+    ### 自定义事件
+    1、一种组件中通信的方式：子 => 父
+    2、使用场景：A是父组件，B是子组件，B想给A传数据，那么就要在A中给B绑定自定义事件(事件的回调在A中)
+    3、绑定自定义事件：
+        (1). 第一种方式：在父组件中<Demo @Event="test"> || <Demo v-on:Event="test">
+        (2). 第二种方式：在父组件中<Demo ref='cmName'>
+                        mounted(){
+                            this.$refs.cmName.on('Event',this.function)
+                        }
+        (3). 想让自定义事件只触发一次，可以使用once修饰符，或$once方法
+    4、触发自定义事件：this.$emit('Event',数据)
+    5、解绑自定义事件：this.$off('Event')
+    6、组件上绑定原生事件需要native修饰符
+    7、通过 this.$refs.xxx.$on('Event',回调) 绑定自定义事件时，回调要么配置在methods中要么就用箭头函数，否则会存在this指向问题

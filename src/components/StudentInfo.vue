@@ -3,7 +3,7 @@
     <h2>学生信息：</h2>
     <div>学生姓名：{{ name }}</div>
     <div>学生年龄：{{ age }}</div>
-    <button @click="sendStudentName">点我给App发送学生姓名</button>
+    <button @click="sendStudentNametest">点我给App发送学生姓名</button>
     <button @click="unbind">点击我解绑自定义事件</button>
     <button @click="demo">点我触发demo事件</button>
   </div>
@@ -22,7 +22,7 @@ export default {
     demo() {
       this.$emit('demo')
     },
-    sendStudentName() {
+    sendStudentNametest() {
       this.$emit('sendStudentName',this.name)
     },
     unbind() {
