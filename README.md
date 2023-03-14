@@ -125,3 +125,20 @@
         2_ 提供数据: 在发送数据的组件中触发自定义事件
         this.$bus.$emit('xxx',data)
     4、最好在beforeDestory钩子中用$off解绑当前组件绑定的自定义事件
+
+### 消息订阅与发布
+    1、一种组件间的通讯方式，适用于任意组件通信
+    2、使用步骤
+        1_ 安装订阅发布库（pubsub-js） npm i pubsub-js
+        2_ 引入pubsub    import pubsub from "pubsub-js"
+        3_ 接收数据 A想拿到数据 就在A中订阅消息 回调函数留在A中 回调会有两个参数第一个参数为订阅消息的名称 第二个参数为携带的数据
+            > methods:{
+                    demo(subName,data){
+                        ....
+                    }
+                }
+                mounted(){
+                    this.pubId = pubsub.subscribe('xxx',this.demo)
+                }
+        4_ 发送数据  pubsub.publish('xxx',数据)
+        5_ 最好在beforeDestory钩子中取消订阅 pubsub.unscribe(this.pubId)
