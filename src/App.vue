@@ -1,49 +1,94 @@
+<!--
+ * @Author: DoubleLiHao =2998000782@qq.com
+ * @Date: 2023-02-22 18:52:20
+ * @LastEditors: DoubleLiHao =2998000782@qq.com
+ * @LastEditTime: 2023-03-14 09:32:20
+ * @FilePath: \test\src\App.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
-  <div id="app">
-    <div>学校名称：{{ SchName }}</div>
-    <TopBanner></TopBanner>
-    <StudentInfo></StudentInfo>
-    <SchoolInfo ></SchoolInfo>
+  <div class="Box">
+    <TopInput @addMsg="addMsg"/>
+    <ListTodos 
+    :Todos="Todos"
+    />
+    <DoneTitle 
+    :Todos="Todos"
+    @DeleteCheck="DeleteCheck"
+    @TodosCheckAll="TodosCheckAll"
+    />
   </div>
 </template>
 
 <script>
-import SchoolInfo from './components/SchoolInfo.vue'
-import TopBanner from './components/TopBanner.vue'
-import StudentInfo from './components/StudentInfo.vue'
+import { nanoid } from 'nanoid'
 import pubsub from 'pubsub-js'
+import TopInput from './components/TopInput.vue'
+import ListTodos from './components/ListTodos.vue'
+import DoneTitle from './components/DoneTitle.vue'
 export default {
   name: 'App',
   components: {
-    SchoolInfo,
-    StudentInfo,
-    TopBanner
+    TopInput,
+    ListTodos,
+    DoneTitle,
   },
   data() {
     return {
-      SchName: ''
+      Todos: JSON.parse(localStorage.getItem("Todos")) || []
+    }
+  },
+  watch: {
+    Todos: {
+      deep: true,
+      handler(){
+        localStorage.setItem('Todos', JSON.stringify(this.Todos))
+      }
     }
   },
   methods: {
-    getSchName(subName,name) {
-      this.SchName = name
+    addMsg(target) {
+      console.log('父组件',this)
+      if (target.value.trim().length > 0) {
+        this.Todos.unshift({ id: nanoid(), value: target.value.trim(), done:false })
+      } else alert("输入不能为空")
+      target.value =''
     },
+    deleteTodo(_,id) {
+      this.Todos.forEach((item,index) => {
+        if(item.id === id) this.Todos.splice(index,1)
+      })
+    },
+    switchCheck(target) {
+      this.Todos.forEach(item => {
+        if (item.id === target.id) item.done = !item.done
+      });
+    },
+    DeleteCheck() {
+      this.Todos = this.Todos.filter(item => item.done == false)
+    },
+    TodosCheckAll(target) {
+       this.Todos.forEach(item => item.done = target.checked? true : false)
+    }
   },
   mounted() {
-    pubsub.subscribe('getSchName',this.getSchName)
+    this.$bus.$on('switchCheck',this.switchCheck)
+    // this.$bus.$on('deleteTodo',this.deleteTodo)
+    this.pubId = pubsub.subscribe('deleteTodo',this.deleteTodo)
+  },
+  beforeDestroy() {
+    pubsub.unsubscribe(this.pubId)
+    this.$bus.$off('switchCheck')
   }
 }
-
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  background-color: black;
-}
+<style scoped>
+  .Box{
+    border: 1px solid black;
+    width: 400px;
+    margin: 200px auto;
+    padding: 20px;
+    border-radius: 10px;
+  }
 </style>
